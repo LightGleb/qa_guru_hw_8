@@ -1,52 +1,36 @@
-import os
 
-from selene import browser, have, command
-
-import tests
+from demoqa_tests.model.pages.registration_page import RegistrationPage
 
 
 def test_fill_and_submit_form():
-    browser.open('/automation-practice-form')
+    registration_page = RegistrationPage()
+    registration_page.open()
     # WHEN
-    browser.element('#firstName').type('Глеб')
-    browser.element('#lastName').type('Иванов')
-    browser.element('#userEmail').type('pipo@mail.ru')
-    browser.all('.custom-radio').element_by(have.text('Male')).perform(command.js.scroll_into_view).click()
-    browser.element('#userNumber').type('6666666666')
-    browser.element('#dateOfBirthInput').click()
-    browser.element('.react-datepicker__month-select').type('June')
-    browser.element('.react-datepicker__year-select').type('1980')
-    browser.element(f'.react-datepicker__day--0{25}').click()
-    browser.element('#subjectsInput').type('Computer Science').press_enter()
-    browser.all('.custom-checkbox').element_by(have.text('Music')).click()
-    browser.element('#uploadPicture').set_value(
-        os.path.abspath(
-            os.path.join(os.path.dirname(tests.__file__), 'resources/foto.jpg')
-        )
-    )
-    browser.element('#currentAddress').type('Leningradskaya Street 23')
-    browser.element('#state').click()
-    browser.all('[id^=react-select][id*=option]').element_by(
-        have.exact_text('Haryana')
-    ).click()
-    browser.element('#city').click()
-    browser.all('[id^=react-select][id*=option]').element_by(
-        have.exact_text('Karnal')
-    ).click()
+    registration_page.fill_first_name('Глеб')
+    registration_page.fill_last_name('Иванов')
+    registration_page.fill_email('pipo@mail.ru')
+    registration_page.select_gender('Male')
+    registration_page.fill_phone_number('6666666666')
+    registration_page.fill_date_of_birth('1980', 'June', '25')
+    registration_page.fill_subject('Computer Science')
+    registration_page.select_hobby('Music')
+    registration_page.upload_picture('foto.jpg')
+    registration_page.fill_address('Leningradskaya Street 23')
+    registration_page.fill_state('Haryana')
+    registration_page.fill_city('Karnal')
 
-    browser.element('#submit').press_enter()
+    registration_page.submit()
+
     # THEN
-    browser.element('.table').all('td').should(
-        have.texts(
-            ('Student Name', 'Глеб Иванов'),
-            ('Student Email', 'pipo@mail.ru'),
-            ('Gender', 'Male'),
-            ('Mobile', '6666666666'),
-            ('Date of Birth', '25 June,1980'),
-            ('Subjects', 'Computer Science'),
-            ('Hobbies', 'Music'),
-            ('Picture', 'foto.jpg'),
-            ('Address', 'Leningradskaya Street 23'),
-            ('State and City', 'Haryana Karnal'),
-        )
+    registration_page.should_registered_user_with(
+        'Глеб Иванов',
+        'pipo@mail.ru',
+        'Male',
+        '6666666666',
+        '25 June,1980',
+        'Computer Science',
+        'Music',
+        'foto.jpg',
+        'Leningradskaya Street 23',
+        'Haryana Karnal'
     )
