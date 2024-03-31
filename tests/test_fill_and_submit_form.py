@@ -10,7 +10,7 @@ def test_fill_and_submit_form():
     registration_page.fill_last_name('Иванов')
     registration_page.fill_email('pipo@mail.ru')
     registration_page.select_gender('Male')
-    registration_page.fill_phone_number('6666666666')
+    registration_page.fill_phone_number('6666666667')
     registration_page.fill_date_of_birth('1980', 'June', '25')
     registration_page.fill_subject('Computer Science')
     registration_page.select_hobby('Music')
