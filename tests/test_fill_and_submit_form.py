@@ -26,7 +26,7 @@ def test_fill_and_submit_form():
         'Глеб Иванов',
         'pipo@mail.ru',
         'Male',
-        '6666666666',
+        '6666666667',
         '25 June,1980',
         'Computer Science',
         'Music',
